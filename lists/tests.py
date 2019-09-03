@@ -2,22 +2,40 @@ from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
 
-from lists.views import create_lists
+from lists.views import user_lists
 from lists.models import List, Item
 # Create your tests here.
 class ListTest(TestCase):
   
   def test_list_view(self):
-    found = resolve('/create-list')
-    self.assertEqual(found.func, create_lists)
+    found = resolve('/user-list')
+    self.assertEqual(found.func, user_lists)
 
   def test_elements_in_template(self):
     request = HttpRequest()
-    response = create_lists(request)
+    response = user_lists(request)
     html = response.content.decode('utf-8')
     self.assertTrue(html.startswith('<html>'))
     self.assertIn('Create a list', html)
     self.assertTrue(html.endswith('</html>'))
+  
+  def test_can_save_a_list(self):
+    response = self.client.post('/user-list', data={'list_name': 'A New List'})
+    self.assertEqual(List.objects.count(), 1)
+    new_list = List.objects.first()
+    self.assertEqual(new_list.name, 'A New List')
+
+    self.assertEqual(response.status_code, 302)
+    self.assertEqual(response['location'],'/')
+  
+  def test_created_lists_appear_in_dom(self):
+    List.objects.create(name='itemOne')
+    List.objects.create(name='itemTwo')
+
+    response = self.client.get('/user-list')
+    self.assertIn('itemOne', response.content.decode())
+    self.assertIn('itemTwo', response.content.decode())
+
 
 class ListModelTest(TestCase):
   def test_saving_and_retrieving_lists(self):

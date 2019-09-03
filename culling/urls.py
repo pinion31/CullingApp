@@ -19,7 +19,7 @@ from home import views as home_views
 from lists import views as list_views
 urlpatterns = [
   #  url(r'^admin/', admin.site.urls),
-  url(r'^$', home_views.home_page, name='home' ),
-  url(r'^create-list', list_views.create_lists, name='lists'),
+  url(r'^$', home_views.home_page, name='home' ), 
+  url(r'^user-list', list_views.user_lists, name='lists'),
   
 ]
