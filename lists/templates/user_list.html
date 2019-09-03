@@ -1,12 +1,17 @@
 <html>
  <body>
+    <form method="POST" id="create_list">
+    <input name="list_name" placeholder="Enter name of list" />
+    {% csrf_token %}
+    <button type="submit" form="create_list">
+        Create a list
+    </button
+    </form>
+    
     <ul>
     {% for list in list_all %}
       <li>{{ list.name}}</li>
     {% endfor %}
     </ul>
-    <button>
-      Create a list
-    </button
  </body>
 </html>

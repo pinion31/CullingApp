@@ -5,6 +5,6 @@ from lists.models import List, Item
 def user_lists(request):
   if request.method == 'POST':
     List.objects.create(name=request.POST['list_name'])
-    return redirect('/')
+    return redirect('/user-list')
   list_all = List.objects.all()
   return render(request, 'user_list.html', {'list_all': list_all})
