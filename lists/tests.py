@@ -29,17 +29,23 @@ class ListTest(TestCase):
         self.assertEqual(new_list.name, 'A New List')
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/user-list')
 
     def test_created_lists_appear_in_dom(self):
-        List.objects.create(name='itemOne')
-        List.objects.create(name='itemTwo')
+        List.objects.create(name='listOne')
+        List.objects.create(name='listTwo')
+
+        response = self.client.get('/user-list')
+        self.assertIn('listOne', response.content.decode())
+        self.assertIn('listTwo', response.content.decode())
+
+    def test_created_items_for_list(self):
+        List.objects.create(name='listOne')
 
         response = self.client.get('/user-list')
         self.assertIn('itemOne', response.content.decode())
         self.assertIn('itemTwo', response.content.decode())
-
-
+        
 class ListModelTest(TestCase):
     def test_saving_and_retrieving_lists(self):
         first_list = List(name='My First List')
@@ -69,12 +75,16 @@ class ListModelTest(TestCase):
 
         self.assertEqual(list_one_item_one.content, 'item1')
         self.assertEqual(list_one_item_one.list_parent, first_list)
+        self.assertEqual(list_one_item_one.list_parent.id, first_list.id)
 
         self.assertEqual(list_one_item_two.content, 'item2')
         self.assertEqual(list_one_item_two.list_parent, first_list)
+        self.assertEqual(list_one_item_two.list_parent.id, first_list.id)
 
         self.assertEqual(list_two_item_one.content, 'item3')
         self.assertEqual(list_two_item_one.list_parent, second_list)
+        self.assertEqual(list_two_item_one.list_parent.id, second_list.id)
 
         self.assertEqual(list_two_item_two.content, 'item4')
         self.assertEqual(list_two_item_two.list_parent, second_list)
+        self.assertEqual(list_two_item_two.list_parent.id, second_list.id)
