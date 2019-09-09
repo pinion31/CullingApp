@@ -17,9 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from home import views as home_views
 from lists import views as list_views
+from auth_user import views as auth_views
+
 urlpatterns = [
-    #  url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^$', home_views.home_page, name='home'),
     url(r'^user-list', list_views.user_lists, name='lists'),
-
+    url(r'^create-user', auth_views.create_user, name='create-user'),
+    url(r'^login', auth_views.login_user, name='login'),
 ]

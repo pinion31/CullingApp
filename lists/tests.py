@@ -2,8 +2,8 @@ from django.test import TestCase
 from django.urls import resolve
 from django.http import HttpRequest
 
-from lists.views import user_lists
-from lists.models import List, Item
+from .views import user_lists
+from .models import List, Item
 # Create your tests here.
 
 
@@ -39,12 +39,14 @@ class ListTest(TestCase):
         self.assertIn('listOne', response.content.decode())
         self.assertIn('listTwo', response.content.decode())
 
-    def test_created_items_for_list(self):
-        List.objects.create(name='listOne')
+    # def test_created_items_for_list(self):
+    #     first_list = List.objects.create(name='listOne')
 
-        response = self.client.get('/user-list')
-        self.assertIn('itemOne', response.content.decode())
-        self.assertIn('itemTwo', response.content.decode())
+    #     Item.objects.create(content='itemOne', list_parent=first_list)
+    #     Item.objects.create(content='itemTwo', list_parent=first_list)
+    #     response = self.client.get('/user-list')
+    #     self.assertIn('itemOne', response.content.decode())
+    #     self.assertIn('itemTwo', response.content.decode())
         
 class ListModelTest(TestCase):
     def test_saving_and_retrieving_lists(self):
