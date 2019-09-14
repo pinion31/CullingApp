@@ -1,5 +1,5 @@
-<html>
- <body>
+{% extends "home/base.html" %}
+{% block content %}
   <form method="POST" id="create_user">
    {% csrf_token %}
   <input name="username" placeholder="Enter Login" />
@@ -10,5 +10,4 @@
  <button type="submit" form="create_user">
     Submit
  </button>
- </body>
-</html>
+{% endblock content %}}

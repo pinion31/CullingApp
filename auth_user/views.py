@@ -6,11 +6,11 @@ def create_user(request):
   if request.method == 'POST':
     user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
     user.save()
-    return redirect('/login')
-  return render(request, 'create_user.html')
+    return redirect('/home')
+  return render(request, 'auth_users/create_user.html')
 
 def login_user(request):
-  return render(request, 'login.html')
+  return render(request, 'auth_users/login.html')
 
 
 

@@ -7,4 +7,4 @@ def user_lists(request):
         List.objects.create(name=request.POST['list_name'])
         return redirect('/user-list')
     list_all = List.objects.all()
-    return render(request, 'user_list.html', {'list_all': list_all})
+    return render(request, 'lists/user_list.html', {'list_all': list_all})

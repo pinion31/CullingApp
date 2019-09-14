@@ -21,8 +21,8 @@ from auth_user import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', home_views.home_page, name='home'),
+    url(r'^$', auth_views.login_user, name='login'),
+    url(r'^home', home_views.dashboard, name='home'),
     url(r'^user-list', list_views.user_lists, name='lists'),
     url(r'^create-user', auth_views.create_user, name='create-user'),
-    url(r'^login', auth_views.login_user, name='login'),
 ]

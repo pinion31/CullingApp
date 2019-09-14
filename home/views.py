@@ -3,5 +3,6 @@ from django.shortcuts import render
 # Create your views here.
 
 
-def home_page(request):
-    return render(request, 'home.html')
+def dashboard(request):
+    create_list = False
+    return render(request, 'home/home.html', {'create_list': create_list})

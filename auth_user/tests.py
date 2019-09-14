@@ -46,7 +46,7 @@ class CreateUserTest(TestCase):
         self.assertEqual(first_user.email, 'chris@gmail.com')
         self.assertTrue(len(first_user.password) > 0)
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/login')
+        self.assertEqual(response['location'], '/home')
 
         
 
