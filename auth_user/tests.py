@@ -7,14 +7,14 @@ from django.contrib.auth.models import User
 # Create your tests here.
 class LoginTest(TestCase):
     def test_root_url_resolves_to_login_view(self):
-        found = resolve('/login')
+        found = resolve('/')
         self.assertEqual(found.func, login_user)
 
     def test_elements_in_template(self):
         request = HttpRequest()
         response = login_user(request)
         html = response.content.decode('utf-8')
-        self.assertTrue(html.startswith('<html>'))
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
         self.assertContains(response, '<input name="username" placeholder="Enter Login" />' )
         self.assertContains(response, '<input name="password" placeholder="Enter Password" />' )
         self.assertIn('Login', html)
@@ -29,17 +29,21 @@ class CreateUserTest(TestCase):
         request = HttpRequest()
         response = create_user(request)
         html = response.content.decode('utf-8')
-        self.assertTrue(html.startswith('<html>'))
-        self.assertContains(response, '<input name="username" placeholder="Enter Login" />' )
-        self.assertContains(response, '<input name="email" placeholder="Enter Email" />' )
-        self.assertContains(response, '<input name="password" placeholder="Enter Password" />' )
-        self.assertContains(response, '<input name="password2" placeholder="Confirm Password" />' )
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertContains(response, '<input type="text" name="username" maxlength="150" autofocus required id="id_username" />' )
+        self.assertContains(response, '<input type="email" name="email" required id="id_email" />' )
+        self.assertContains(response, '<input type="password" name="password1" required id="id_password1" />' )
+        self.assertContains(response, '<input type="password" name="password2" required id="id_password2" />' )
         self.assertIn('Submit', html)
         self.assertTrue(html.endswith('</html>'))
     
     def test_user_creation(self):
         response = self.client.post(
-            '/create-user',data={'username': 'chris', 'password':'test','email':'chris@gmail.com' })
+            '/create-user',data={
+                'username': 'chris',
+                'password1':'random1!',
+                'password2':'random1!',
+                'email':'chris@gmail.com' })
         self.assertEqual(User.objects.count(), 1)
         first_user = User.objects.first()
         self.assertEqual(first_user.username, 'chris')
@@ -47,6 +51,24 @@ class CreateUserTest(TestCase):
         self.assertTrue(len(first_user.password) > 0)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/home')
+
+    def test_invalid_password_user_creation(self):
+        response = self.client.post(
+            '/create-user',data={
+                'username': 'chris',
+                'password1':'test',
+                'password2':'test',
+                'email':'chris@gmail.com' })
+        self.assertEqual(User.objects.count(), 0)
+    
+    def test_mismatch_password_user_creation(self):
+        response = self.client.post(
+            '/create-user',data={
+                'username': 'chris',
+                'password1':'test',
+                'password2':'testeeed33',
+                'email':'chris@gmail.com' })
+        self.assertEqual(User.objects.count(), 0)
 
         
 

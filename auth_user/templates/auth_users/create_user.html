@@ -2,10 +2,7 @@
 {% block content %}
   <form method="POST" id="create_user">
    {% csrf_token %}
-  <input name="username" placeholder="Enter Login" />
-  <input name="email" placeholder="Enter Email" />
-  <input name="password" placeholder="Enter Password" />
-  <input name="password2" placeholder="Confirm Password" />
+  {{form}}
  </form>
  <button type="submit" form="create_user">
     Submit

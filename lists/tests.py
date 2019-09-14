@@ -5,8 +5,6 @@ from django.http import HttpRequest
 from .views import user_lists
 from .models import List, Item
 # Create your tests here.
-
-
 class ListTest(TestCase):
 
     def test_list_view(self):
@@ -17,7 +15,7 @@ class ListTest(TestCase):
         request = HttpRequest()
         response = user_lists(request)
         html = response.content.decode('utf-8')
-        self.assertTrue(html.startswith('<html>'))
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
         self.assertIn('Create a list', html)
         self.assertTrue(html.endswith('</html>'))
 
