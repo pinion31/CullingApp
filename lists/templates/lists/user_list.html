@@ -10,11 +10,12 @@
     <h4>Your Lists</h4>
     <ul>
     {% for list in list_all %}
-      <li>{{ list.name}}</li>
+      <form method="GET" action="#">
+        <li onclick="sendData('/user-list', '{{list.name}}')">{{ list.name }}</li>
+      </form>
       <form method="POST" id="create_item">
-        {% if create_item_mode %}
-        <input name="list_name" placeholder="Enter name of list" />
-        <button type="submit" form="create_item"> Add item </button>
+        {% if open_list|stringformat:"s" == list.name|stringformat:"s" %}
+          <button type="submit" form="create_item"> Add item </button>
         {% endif %}
       </form>
     {% endfor %}

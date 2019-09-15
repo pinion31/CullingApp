@@ -2,8 +2,24 @@
 <html>
   <head>
     <title>Lynx</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+      function sendData(url, index) {
+        console.log('url', url);
+        console.log('data', index);
+        $.ajax({
+          url: url,
+          data: { 
+            "index":index
+          },
+          success: function (data) {
+              $("#body").html(data);
+          }
+        });
+      }
+    </script>
   </head>
-  <body>
+  <body id="body">
     {% block content %} {% endblock %}
   </body>
 </html>
