@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from home import views as home_views
 from lists import views as list_views
+#from lists.views import ListDetailView
 from django.contrib.auth import views as auth_views
 from auth_user import views as create_user_views
 
@@ -25,6 +26,8 @@ urlpatterns = [
     url(r'^$',  auth_views.LoginView.as_view(template_name='auth_users/login.html'), name='login'),
     url(r'^logout',  auth_views.LogoutView.as_view(template_name='auth_users/logout.html'), name='logout'),
     url(r'^home', home_views.dashboard, name='home'),
+    #url(r'^user-list', UserNoteListView.as_view(), name='lists'),
     url(r'^user-list', list_views.user_lists, name='lists'),
+    url(r'^list/(?P<pk>\d+)/', list_views.list_items, name='list_details'),
     url(r'^create-user', create_user_views.create_user, name='create-user'),
 ]

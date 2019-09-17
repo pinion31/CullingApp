@@ -1,0 +1,15 @@
+{% extends "home/base.html" %}
+{% block content %}
+  <h1>List</h1>
+  <h2>{{list.name}}</h2>
+  {% for item in all_items %}
+    <li>{{item.content}}</li>
+  {% endfor %}
+  <form method="POST" id="add_item">
+      <input name="list_item" placeholder="Enter name of list item" />
+      {% csrf_token %}
+      <button type="submit" form="add_item">
+          Add item
+      </button>
+  </form>
+{% endblock content %}>
