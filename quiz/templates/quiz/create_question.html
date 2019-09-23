@@ -1,0 +1,26 @@
+{% extends "home/base.html" %}
+{% block content %}
+    <h1> {{ quiz.name }}</h1>
+    {% for question in questions %}
+      <h2>{{ forloop.counter}}. {{ question }}</h2>
+      {% for answer in answers %}
+        {% if answer.0 == forloop.parentloop.counter0 %}
+            <h5>{{answer.1}}</h5>
+        {% endif %}
+      {% endfor %}
+      <form method="POST" id="{{forloop.counter}}" action="/create-question/{{ques_pk}}/{{forloop.counter0}}">
+          {% csrf_token %}
+          <input name="answer_text" placeholder="Answer Text" id="{{forloop.counter0}}" />
+          <button type="submit" form="{{forloop.counter}}">
+            Add Answer
+          </button>
+      </form>
+    {% endfor %}
+    <form method="POST" id="create_question">
+      {% csrf_token %}
+      <input name="question_text" placeholder="Question Text" />
+      <button type="submit" form="create_question">
+        Add Question
+      </button>
+    </form>
+{% endblock content %}>

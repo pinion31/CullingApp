@@ -1,0 +1,13 @@
+{% extends "home/base.html" %}
+{% block content %}
+    <h4>Your Quizzes</h4>
+    <ul>
+    {% for quiz in quiz_all %}
+       <li>{{ quiz.name }}</li>
+    {% endfor %}
+    <a href="{% url 'create-quiz' %}">
+      <h5>Add Quiz</h5>
+    </a>
+    <b
+    </ul>
+{% endblock content %}>

@@ -4,14 +4,11 @@
     <title>Lynx</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-      function sendData(url, index) {
-        console.log('url', url);
-        console.log('data', index);
+      function sendData(url, data=None) {
         $.ajax({
+          //method: 'POST',
           url: url,
-          data: { 
-            "index":index
-          },
+          data: data,
           success: function (data) {
               $("#body").html(data);
           }

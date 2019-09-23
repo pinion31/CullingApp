@@ -1,0 +1,9 @@
+{% extends "home/base.html" %}
+{% block content %}
+    <h4>Questions</h4>
+    <ul>
+    {% for question in question_all %}
+       <li>{{ question.question }}</li>
+    {% endfor %}
+    </ul>
+{% endblock content %}>

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'home',
     'lists',
     'auth_user',
+    'quiz',
 ]
 
 MIDDLEWARE = [
