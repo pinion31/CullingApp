@@ -23,4 +23,9 @@
         Add Question
       </button>
     </form>
+    <form method="POST" id="create_quiz">
+      {% csrf_token %}
+      <button type="submit" form="create_quiz">Add Questions</button>
+    </form>
+    
 {% endblock content %}>
