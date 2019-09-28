@@ -1,11 +1,22 @@
 {% extends "home/base.html" %}
 {% block content %}
-    <h5>What is the name of your quiz?</h5>
-    <form method="POST" id="create_quiz">
-      <input name="quiz_name" placeholder="Enter name of quiz" />
-      {% csrf_token %}
-      <button type="submit" form="create_quiz">
-          Next
-      </button>
-    </form>
+    <h1> {{ quiz.name }}</h1> 
+    {% for question in questions %}
+      <h2>{{question.question}}</h2>
+      {% for answer in question.answers %}
+        <h4>{{ answer }}</h4>
+      {% endfor %}
+    {% endfor %}
+    <a href="{% url 'create-question' quiz.id %}">
+        <button>
+          Create Question
+        </button>
+    </a>
+    {% if questions %}
+      <a href="{% url 'view-quiz' %}">
+          <button>
+            Done
+          </button>
+      </a>
+    {% endif %}
 {% endblock content %}>

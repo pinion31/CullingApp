@@ -4,15 +4,33 @@
     <title>Lynx</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-      function sendData(url, data=None) {
-        $.ajax({
-          //method: 'POST',
-          url: url,
-          data: data,
-          success: function (data) {
-              $("#body").html(data);
-          }
-        });
+      var answerMap = {};
+      // function sendAnswerData(url, data=None, token) {
+      //   answerMap[data[0]] = data[1];
+      //   console.log('token', token);
+      //   $.ajax({
+      //     method: 'POST',
+      //     url: url,
+      //     data: answerMap,
+      //     success: function (data) {
+      //         $("#body").html(data);
+      //     }
+      //   });
+      // }
+
+      function sendAnswerData(key, data) {
+        answerMap = {};
+      }
+
+      function loadLocalStorage() {
+
+      }
+
+      function storeRadioButtonState(questionIndex, answer) {
+      console.log('questionIndex', questionIndex);
+      console.log('answerIndex', answerIndex);
+      answerMap[questionIndex] = answerIndex;
+      console.log('answerMap', answerMap);
       }
     </script>
   </head>

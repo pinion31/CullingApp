@@ -1,31 +1,32 @@
 {% extends "home/base.html" %}
 {% block content %}
-    <h1> {{ quiz.name }}</h1>
-    {% for question in questions %}
-      <h2>{{ forloop.counter}}. {{ question }}</h2>
-      {% for answer in answers %}
-        {% if answer.0 == forloop.parentloop.counter0 %}
-            <h5>{{answer.1}}</h5>
-        {% endif %}
-      {% endfor %}
-      <form method="POST" id="{{forloop.counter}}" action="/create-question/{{ques_pk}}/{{forloop.counter0}}">
+    {% if ques_created %}
+        <form method="POST" id="answer_text" action="/create-question/{{ques_pk}}/">
           {% csrf_token %}
-          <input name="answer_text" placeholder="Answer Text" id="{{forloop.counter0}}" />
-          <button type="submit" form="{{forloop.counter}}">
-            Add Answer
+          <h1>{{question}}</h1>
+          {% for answer in answers %}
+            <h5>{{answer}}</h5>
+          {% endfor %}
+          <input name="answer_text" placeholder="Answer Text" id="answer_text" />
+          <button type="submit" form="answer_text">
+              Add Answer
           </button>
-      </form>
-    {% endfor %}
-    <form method="POST" id="create_question">
-      {% csrf_token %}
-      <input name="question_text" placeholder="Question Text" />
-      <button type="submit" form="create_question">
-        Add Question
-      </button>
-    </form>
-    <form method="POST" id="create_quiz">
-      {% csrf_token %}
-      <button type="submit" form="create_quiz">Submit Quiz</button>
-    </form>
-    
+        </form>
+    {% else %}
+        <form method="POST" id="question_text" action="/create-question/{{ques_pk}}/">
+          {% csrf_token %}
+          <input name="question_text" placeholder="Question Text" id="question_text" />
+          <button type="submit" form="question_text">
+              Add Queston Text
+          </button>
+        </form>
+    {% endif %}
+    {% if answers_created  %} 
+      <form method="POST" id="submit_question" action="/create-question/{{ques_pk}}/">
+        {% csrf_token %}
+        <button type="submit" form="submit_question">
+            Submit Question
+        </button>
+      </form>     
+    {% endif %}
 {% endblock content %}>

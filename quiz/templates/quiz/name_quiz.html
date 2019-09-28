@@ -1,0 +1,11 @@
+{% extends "home/base.html" %}
+{% block content %}
+    <h5>What is the name of your quiz?</h5>
+    <form method="POST" id="name_quiz">
+      <input name="quiz_name" placeholder="Enter name of quiz" />
+      {% csrf_token %}
+      <button type="submit" form="name_quiz">
+          Next
+      </button>
+    </form>
+{% endblock content %}>
