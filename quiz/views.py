@@ -39,13 +39,15 @@ class QuestionCreateView(CreateView):
         'answers': [],
         'ques_created': False,
         'answers_created': False,
+        'correct_answer':'',
+        'choose_answer_mode': False,
     }
 
     def post(self, request, pk, context=context):
         context['ques_pk'] = pk
         if context['quiz'] == None:
             context['quiz'] = Quiz.objects.get(pk=pk)
-
+            
         if request.POST.get('question_text'):
             context['question'] = request.POST.get('question_text')
             context['ques_created'] = True
@@ -54,50 +56,33 @@ class QuestionCreateView(CreateView):
             context['answers_created'] = True
         else:
             #submit quiz and answers
-            answer_set_to_add = []
-            Question.objects.create(
-                quiz_parent=context['quiz'],
-                question=context['question'],
-                answers=context['answers'],
-                correct_answer='temp answer',
-            )
-            self.resetContext(context)
-            return redirect('create-quiz', pk=pk)
+            if context['choose_answer_mode'] == False:
+                context['choose_answer_mode'] = True
+                return render(request, 'quiz/create_question.html', context)
+            if request.POST.get('correct_answer'):
+                context['correct_answer'] = request.POST.get('correct_answer') 
+                Question.objects.create(
+                    quiz_parent=context['quiz'],
+                    question=context['question'],
+                    answers=context['answers'],
+                    correct_answer= context['correct_answer'],
+                )
+                self.resetContext(context)
+                return redirect('create-quiz', pk=pk)
         return render(request, 'quiz/create_question.html', context)
-
-        #return render(request, 'quiz/create_question.html', context)
-            # throw error here if quiz is blank
-
-        # if request.POST.get('question_text'):
-        #     context['question'].append(request.POST.get('question_text'))
-        #     return render(request, 'quiz/create_question.html', context)
-        # elif request.POST.get('answer_text'):
-        #     question_index = int(request.path.split('/')[3])
-        #     context["answers"].append((question_index, request.POST.get('answer_text')))
-        #     return render(request, 'quiz/create_question.html', context)
-        # else:
-        #     #submit quiz and answers
-        #     for index, question in enumerate(context['question']):
-        #         answer_set_to_add = []
-        #         for answer in context['answers']:
-        #             if answer[0] == index:
-        #                 answer_set_to_add.append(answer)
-        #         Question.objects.create(
-        #             quiz_parent=context['quiz'],
-        #             question=question,
-        #             answers=answer_set_to_add,
-        #             correct_answer='temp answer',
-        #         )
-        #     self.resetContext(context)
-        #     return render(request, 'quiz/create_quiz.html')
 
     def resetContext(self, context=context):
         context = {
-            'questions': [],
+            'question': '',
             'quiz': None,
             'ques_pk': None,
             'answers': [],
+            'ques_created': False,
+            'answers_created': False,
+            'correct_answer':'',
+            'choose_answer_mode': False,
         }
+        print(context)
 
     def get(self, request, pk, context=context):
         context['ques_pk'] = pk

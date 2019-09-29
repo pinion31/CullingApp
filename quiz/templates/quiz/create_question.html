@@ -1,17 +1,30 @@
 {% extends "home/base.html" %}
 {% block content %}
     {% if ques_created %}
+       {% if choose_answer_mode %}
+        <form method="POST" id="correct_answer" action="/create-question/{{ques_pk}}/">
+          {% csrf_token %}
+          <h1>What is the correct answer for this question?</h1>
+            {% for answer in answers %}
+              <input type="radio" name="correct_answer" id="correct_answer" value="{{answer}}">{{answer}}</input>
+            {% endfor %}
+            <button type="submit" form="correct_answer">
+                Set Answer
+            </button>
+        </form>
+       {% else %}
         <form method="POST" id="answer_text" action="/create-question/{{ques_pk}}/">
           {% csrf_token %}
           <h1>{{question}}</h1>
-          {% for answer in answers %}
-            <h5>{{answer}}</h5>
-          {% endfor %}
+            {% for answer in answers %}
+              <h2>{{answer}}</h2>
+            {% endfor %}
           <input name="answer_text" placeholder="Answer Text" id="answer_text" />
           <button type="submit" form="answer_text">
               Add Answer
           </button>
         </form>
+       {% endif %}
     {% else %}
         <form method="POST" id="question_text" action="/create-question/{{ques_pk}}/">
           {% csrf_token %}
@@ -21,12 +34,15 @@
           </button>
         </form>
     {% endif %}
-    {% if answers_created  %} 
+    {% if answers_created %} 
       <form method="POST" id="submit_question" action="/create-question/{{ques_pk}}/">
         {% csrf_token %}
-        <button type="submit" form="submit_question">
-            Submit Question
-        </button>
-      </form>     
+        {% if choose_answer_mode %}
+        {% else %}
+          <button type="submit" form="submit_question">
+              Submit Question
+          </button>
+        {% endif %}
+      </form>
     {% endif %}
 {% endblock content %}>
