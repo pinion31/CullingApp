@@ -3,11 +3,12 @@
     <h4>Your Quizzes</h4>
     <ul>
     {% for quiz in quiz_all %}
+      <a href="{% url 'list-questions' quiz.id %}">
        <li>{{ quiz.name }}</li>
+      </a>
     {% endfor %}
     <a href="{% url 'name-quiz' %}">
       <h5>Add Quiz</h5>
     </a>
-    <b
     </ul>
 {% endblock content %}>

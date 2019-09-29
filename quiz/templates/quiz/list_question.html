@@ -2,8 +2,15 @@
 {% block content %}
     <h4>Questions</h4>
     <ul>
-    {% for question in question_all %}
-       <li>{{ question.question }}</li>
+    {% for question in all_questions %}
+       <h1>{{ question.question }}</h1>
+       {% for answer in question.answers %}
+          <h4>{{answer}}</h4>
+        {% endfor %}
+        <h4>Correct Answer: {{question.correct_answer}}</h4>
     {% endfor %}
     </ul>
+    <a href="{% url 'view-quiz' %}">
+      <button>Back</button>
+    </a>
 {% endblock content %}>

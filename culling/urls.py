@@ -33,5 +33,6 @@ urlpatterns = [
     url(r'^view-quiz', QuizListView.as_view(), name='view-quiz'),
     url(r'^create-quiz/(?P<pk>\d+)/', QuizCreateView.as_view(), name='create-quiz'),
     url(r'^name-quiz', QuizNameView.as_view(), name='name-quiz'),
+    url(r'^list-questions/(?P<pk>\d+)/', QuestionListView.as_view(), name='list-questions'),
     url(r'^create-question/(?P<pk>\d+)/', QuestionCreateView.as_view(), name='create-question'),
 ]

@@ -24,9 +24,19 @@ class QuizListView(ListView):
 
 class QuestionListView(ListView):
     model = Question
-    template_name = 'quiz/list_question.html'
-    context_object_name = 'question_all'
+    #template_name = 'quiz/list_question.html'
+    #context_object_name = 'question_all'
     #ordering = ['-date_posted']
+    context = {
+        'all_questions':[],
+    }
+
+    def get(self, request, pk, context=context):
+        print('weds')
+        #context['ques_pk'] = pk
+        context['all_questions'] = Question.objects.filter(quiz_parent_id=pk)
+        #context['quiz'] = quiz
+        return render(request, 'quiz/list_question.html', context)
 
 class QuestionCreateView(CreateView):
     model = Quiz
@@ -47,7 +57,7 @@ class QuestionCreateView(CreateView):
         context['ques_pk'] = pk
         if context['quiz'] == None:
             context['quiz'] = Quiz.objects.get(pk=pk)
-            
+
         if request.POST.get('question_text'):
             context['question'] = request.POST.get('question_text')
             context['ques_created'] = True
